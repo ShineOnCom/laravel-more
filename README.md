@@ -46,19 +46,19 @@ class Post extend Model
 #### Usage
 
 ```
-$post->user()                   // BelongsTo
-$post->user                     // App\User
-$post->isAccessibleBy($user)    // boolean
-Post::forUser($user)            // Builder|Post
-Post::forUsers($arr_or_col)     // Builder|Post
-Post::createForUser($user)      // Post
+$post->user()                       // BelongsTo
+$post->user                         // App\User
+$post->isAccessibleBy($user)        // boolean
+Post::forUser($user)                // Builder|Post
+Post::forUsers($arr_or_col)         // Builder|Post
+Post::createForUser($user, [...])   // Post
 ```
 
 ### And of course there is more included
 
 The `\More\Laravel\Traits\Model\Core` namespace is reasonable for global usage.
 
-The `\More\Laravel\Traits\Model` for the per model use case.
+The `\More\Laravel\Traits\Model` namespace is for the per model use cases.
 
 Good Luck!
 
@@ -84,10 +84,6 @@ Good Luck!
 ## Contributors
 
 - [Diogo Gomes](https://github.com/diogogomeswww)
-
-## Todo
-
-* 
 
 ## License
 
