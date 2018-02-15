@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait AggregatesDays
 {
-    /** @var array $day_count_labels */
+    /** @var array $_aggregates_days_labels */
     public static $_aggregates_days_labels = [
         'today' => 'Today',
         'yesterday' => 'Yesterday',
