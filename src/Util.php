@@ -3,12 +3,25 @@
 namespace More\Laravel;
 
 use DB;
+use Illuminate\Support\Str;
 
 /**
  * Class Util
  */
 class Util
 {
+    /**
+     * @param object|string $model
+     * @param string $postfix
+     * @return string
+     */
+    public static function field($model, $postfix = '')
+    {
+        $field = Str::snake(Str::singular(class_basename($model)));
+
+        return implode('_', array_filter([$field, $postfix]));
+    }
+
     /**
      * @param $class
      * @param string $quote

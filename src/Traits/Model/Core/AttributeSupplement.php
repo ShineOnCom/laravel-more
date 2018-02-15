@@ -2,8 +2,8 @@
 
 namespace More\Laravel\Traits\Model\Core;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use More\Laravel\Util;
 
 /**
  * Trait AttributeSupplement
@@ -19,10 +19,10 @@ trait AttributeSupplement
     public function compact($as = null)
     {
         if (is_null($as)) {
-            $as = strtolower(Str::snake(Str::singular(class_basename($this))));
+            $as = Util::field($this);
         }
 
-        return ["{$as}_id" => $this->getKey()];
+        return [$as.'_id' => $this->getKey()];
     }
 
     /**

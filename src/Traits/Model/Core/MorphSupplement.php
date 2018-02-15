@@ -2,7 +2,6 @@
 
 namespace More\Laravel\Traits\Model\Core;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use More\Laravel\Util;
 
@@ -25,35 +24,26 @@ trait MorphSupplement
      */
     public function scopeWhereModel($query, Model $model, $related_field = null)
     {
-        $model_class = get_class($model);
-        $model_id = $model->getKey();
-
         if (empty($related_field)) {
-            $related_field = array_last(explode('\\', $model_class));
-            $related_field = strtolower(Str::snake(Str::singular($related_field)));
+            $related_field = Util::field($model);
         }
 
-        return $query->where("{$related_field}_id", $model_id);
+        return $query->where("{$related_field}_id", $model->getKey());
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
-     * @param Model|string $model_or_class
+     * @param Model|string $model
      * @param string|null $morph
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWhereMorphedBy($query, $model_or_class, $morph = null)
+    public function scopeWhereMorphedBy($query, $model, $morph = null)
     {
-        $model_class = is_object($model_or_class)
-            ? get_class($model_or_class)
-            : $model_or_class;
-
         if (empty($morph)) {
-            $morph = array_last(explode('\\', $model_class));
-            $morph = strtolower(Str::snake(Str::singular($morph)));
+            $morph = Util::field($model);
         }
 
-        return $query->where("{$morph}_type", Util::rawClass($model_class));
+        return $query->where("{$morph}_type", Util::rawClass($model));
     }
 
     /**
@@ -64,15 +54,12 @@ trait MorphSupplement
      */
     public function scopeWhereMorph($query, Model $model, $morph = null)
     {
-        $model_class = get_class($model);
-        $model_id = $model->getKey();
-
         if (empty($morph)) {
-            $morph = strtolower(Str::snake(Str::singular(class_basename($morph))));
+            $morph = Util::field($model);
         }
 
-        return $query->where("{$morph}_type", Util::rawClass($model_class))
-            ->where("{$morph}_id", $model_id);
+        return $query->where("{$morph}_type", Util::rawClass($model))
+            ->where("{$morph}_id", $model->getKey());
     }
 
     /**
@@ -103,14 +90,12 @@ trait MorphSupplement
      */
     public function unmorph($morph = null)
     {
-        $model_class = get_class($this);
-
         if (is_null($morph)) {
-            $morph = strtolower(Str::snake(Str::singular(class_basename($model_class))));
+            $morph = Util::field($this);
         }
 
         return [
-            "{$morph}_type" => $model_class,
+            "{$morph}_type" => get_class($this),
             "{$morph}_id" => $this->getKey()
         ];
     }

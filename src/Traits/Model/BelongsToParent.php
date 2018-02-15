@@ -10,7 +10,7 @@ use App\Model;
  * @mixin \Eloquent
  * @method static forParents() \Illuminate\Database\Eloquent\Builder
  * @method static forChildren() \Illuminate\Database\Eloquent\Builder
- * @property Model parent
+ * @property Model|BelongsToParent $parent
  */
 trait BelongsToParent
 {
@@ -34,14 +34,20 @@ trait BelongsToParent
 
     /**
      * @param bool $include_self
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Builder
      */
     public function siblings($include_self = false)
     {
-        return $include_self
-            ? $this->children()
-            : $this->children()
-                ->where(sprintf('%s.id', $this->getTable()), '!=', $this->getKey());
+        if (empty($this->parent_id)) {
+            $hasMany = $this->hasMany(get_class($this), 'parent_id');
+            $hasMany->getBaseQuery()->wheres = [];
+            return $hasMany->whereNull('parent_id');
+        } else {
+            return $this->parent->children()
+                ->when(! $include_self, function($query) {
+                    $query->where(sprintf('%s.id', $this->getTable()),'!=', $this->getKey());
+                });
+        }
     }
 
     /**
