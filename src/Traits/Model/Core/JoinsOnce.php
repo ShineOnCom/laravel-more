@@ -33,7 +33,7 @@ trait JoinsOnce
         $joins = $query->getQuery()->joins ?: [];
 
         foreach ($joins as $j) {
-            if ($j->table == $table) {
+            if ((string) $j->table == (string) $table) {
                 return true;
             }
         }
