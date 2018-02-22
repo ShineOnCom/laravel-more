@@ -3,6 +3,7 @@
 namespace More\Laravel\Traits\Model;
 
 use App\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Trait BelongsToParent
@@ -38,13 +39,22 @@ trait BelongsToParent
      */
     public function siblings($include_self = false)
     {
+        // If the model is a parent with no ancestors
         if (empty($this->parent_id)) {
             $hasMany = $this->hasMany(get_class($this), 'parent_id');
             $hasMany->getBaseQuery()->wheres = [];
-            return $hasMany->whereNull('parent_id');
+
+            // Then return other parents with no ancestors
+            return $hasMany->whereNull('parent_id')
+                ->when(! $include_self, function($query) {
+                    /** @var Builder $query */
+                    $query->where(sprintf('%s.id', $this->getTable()),'!=', $this->getKey());
+                });
+        // Otherwise, do what you would expect
         } else {
             return $this->parent->children()
                 ->when(! $include_self, function($query) {
+                    /** @var Builder $query */
                     $query->where(sprintf('%s.id', $this->getTable()),'!=', $this->getKey());
                 });
         }
