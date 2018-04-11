@@ -44,7 +44,7 @@ trait MorphSupplement
      */
     public function scopeWhereNotModel($query, Model $model, $related_field = null)
     {
-        return $this->whereModel($query, $model, $related_field, '!=');
+        return $query->whereModel($query, $model, $related_field, '!=');
     }
 
     /**
@@ -72,7 +72,7 @@ trait MorphSupplement
      */
     public function scopeWhereNotMorphedBy($query, $model, $morph = null)
     {
-        return $this->whereMorphedBy($query, $model, $morph, '!=');
+        return $query->whereMorphedBy($model, $morph, '!=');
     }
 
     /**
@@ -103,7 +103,7 @@ trait MorphSupplement
      */
     public function scopeWhereNotMorph($query, Model $model, $morph = null)
     {
-        return $this->whereMorph($query, $model, $morph, '!=');
+        return $query->whereMorph($query, $model, $morph, '!=');
     }
 
     /**
