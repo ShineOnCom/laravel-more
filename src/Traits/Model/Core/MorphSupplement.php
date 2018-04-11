@@ -24,6 +24,7 @@ trait MorphSupplement
      * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
      * @param \Illuminate\Database\Eloquent\Model $model
      * @param string|null $related_field
+     * @param string $operator
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWhereModel($query, Model $model, $related_field = null, $operator = '=')
@@ -50,6 +51,7 @@ trait MorphSupplement
      * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
      * @param Model|string $model
      * @param string|null $morph
+     * @param string $operator
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWhereMorphedBy($query, $model, $morph = null, $operator = '=')
@@ -77,6 +79,7 @@ trait MorphSupplement
      * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
      * @param Model $model
      * @param string|null $morph
+     * @param string $operator
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWhereMorph($query, Model $model, $morph = null, $operator = '=')
@@ -86,7 +89,7 @@ trait MorphSupplement
         }
 
         return $query
-            ->where(function($q) use ($model, $morph) {
+            ->where(function($q) use ($model, $morph, $operator) {
                 $q->where("{$morph}_type", $operator, Util::rawClass($model))
                     ->where("{$morph}_id", $operator, $model->getKey());
             });
