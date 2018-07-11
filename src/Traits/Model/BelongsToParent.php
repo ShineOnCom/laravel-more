@@ -25,6 +25,8 @@ trait BelongsToParent
     }
 
     /**
+     * Direct children, does not include grandchildren
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children()
