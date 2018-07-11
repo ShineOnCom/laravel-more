@@ -34,4 +34,14 @@ class Util
 
         return DB::raw($quote.$class.$quote);
     }
+
+    /**
+     * @param $class
+     */
+    public static function guessSingularRelation($class)
+    {
+        $class = is_object($class) ? $class : (new $class);
+
+        return Str::singular($class->getTable());
+    }
 }
