@@ -3,7 +3,9 @@
 namespace More\Laravel;
 
 use DB;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Util
@@ -25,7 +27,7 @@ class Util
     /**
      * @param $class
      * @param string $quote
-     * @return \Illuminate\Database\Query\Expression
+     * @return Expression
      */
     public static function rawClass($class, $quote = "'")
     {
@@ -36,10 +38,12 @@ class Util
     }
 
     /**
-     * @param $class
+     * @param \App\Model|\More\Laravel\Model|\Eloquent|Model $class
+     * @return string
      */
     public static function guessSingularRelation($class)
     {
+        /** @var \Illuminate\Database\Eloquent\Model $class */
         $class = is_object($class) ? $class : (new $class);
 
         return Str::singular($class->getTable());

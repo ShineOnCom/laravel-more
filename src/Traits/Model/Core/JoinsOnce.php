@@ -2,21 +2,24 @@
 
 namespace More\Laravel\Traits\Model\Core;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Trait JoinsOnce
  *
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder joinExists(string $table)
- * @method static \Illuminate\Database\Eloquent\Builder groupByExists(string $field)
- * @method static \Illuminate\Database\Eloquent\Builder joinOnce(string $table, string $first, string $operator, string $second, string $type = 'inner', bool $where = false)
- * @method static \Illuminate\Database\Eloquent\Builder leftJoinOnce(string $table, string $first, string $operator, string $second)
- * @method static \Illuminate\Database\Eloquent\Builder rightJoinOnce(string $table, string $first, string $operator, string $second)
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
+ * @method static static|Builder joinExists(string $table)
+ * @method static static|Builder groupByExists(string $field)
+ * @method static static|Builder joinOnce(string $table, string $first, string $operator, string $second, string $type = 'inner', bool $where = false)
+ * @method static static|Builder leftJoinOnce(string $table, string $first, string $operator, string $second)
+ * @method static static|Builder rightJoinOnce(string $table, string $first, string $operator, string $second)
  */
 trait JoinsOnce
 {
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|JoinsOnce $query
-     * @param static|\Illuminate\Database\Eloquent\Model|string $table
+     * @param static|Builder $query
+     * @param \App\Model|\More\Laravel\Model|\Eloquent|Model|string $table
      * @return bool
      */
     public function scopeJoinExists($query, $table)
@@ -44,14 +47,14 @@ trait JoinsOnce
     /**
      * Safely add a join clause to the query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder|JoinsOnce $query
+     * @param static|Builder $query
      * @param  string  $table
      * @param  string  $first
      * @param  string|null  $operator
      * @param  string|null  $second
      * @param  string  $type
      * @param  bool    $where
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
     public function scopeJoinOnce($query, $table, $first, $operator = null, $second = null, $type = 'inner', $where = false)
     {
@@ -65,12 +68,12 @@ trait JoinsOnce
     /**
      * Safely add a left join to the query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder|JoinsOnce $query
+     * @param static|Builder $query
      * @param  string  $table
      * @param  string  $first
      * @param  string|null  $operator
      * @param  string|null  $second
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return static|Builder
      */
     public function scopeLeftJoinOnce($query, $table, $first, $operator = null, $second = null)
     {
@@ -80,12 +83,12 @@ trait JoinsOnce
     /**
      * Safely add a right join to the query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder|JoinsOnce $query
+     * @param static|Builder $query
      * @param  string  $table
      * @param  string  $first
      * @param  string  $operator
      * @param  string  $second
-     * @return \Illuminate\Database\Query\Builder|static
+     * @return static|Builder
      */
     public function scopeRightJoinOnce($query, $table, $first, $operator = null, $second = null)
     {

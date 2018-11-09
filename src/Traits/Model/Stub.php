@@ -2,12 +2,14 @@
 
 namespace More\Laravel\Traits\Model;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Trait Stub
  *
  * Attach to models that are only stubs so data is not persisted to the DB.
  *
- * @mixin \Eloquent
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
  */
 trait Stub
 {

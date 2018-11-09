@@ -5,7 +5,7 @@ namespace More\Laravel\Traits\Model\User;
 /**
  * Trait AbbreviatesNames
  *
- * @mixin \Eloquent
+ * @mixin  \App\Model||\More\Laravel\Model|\Eloquent|Model
  * @property string $first_name
  * @property string $last_name
  */

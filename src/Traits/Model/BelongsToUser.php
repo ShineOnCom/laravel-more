@@ -3,23 +3,26 @@
 namespace More\Laravel\Traits\Model;
 
 use App\User;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection as BaseCollection;
 
 /**
  * Class BelongsToUser
  *
  * For any model / table with a `user_id` column that "belongs to user"
  *
- * @mixin \Eloquent
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
  * @property User $user
  * @property int $user_id
- * @method static \Illuminate\Database\Eloquent\Builder forUser(User $user)
- * @method static \Illuminate\Database\Eloquent\Builder forUsers($users)
+ * @method static Builder forUser(User $user)
+ * @method static Builder forUsers($users)
  */
 trait BelongsToUser
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -56,29 +59,29 @@ trait BelongsToUser
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param static|Builder $query
      * @param User $user
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
     public function scopeForUser($query, User $user)
     {
-        $user_field = sprintf('%s.user_id', $this->getTable());
+        $user_field = "{$this->getTable()}.user_id";
 
         return $query->where($user_field, $user->id);
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Support\Collection|array
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param static|Builder $query
+     * @param BaseCollection|array
+     * @return static|Builder
      */
     public function scopeForUsers($query, $users)
     {
-        $users = is_object($users) && $users instanceof Collection
+        $users = is_object($users) && $users instanceof BaseCollection
             ? $users : collect($users);
 
         $uids = $users->pluck('id')->all();
-        $user_field = sprintf('%s.user_id', $this->getTable());
+        $user_field = "{$this->getTable()}.user_id";
 
         return $query->whereIn($user_field, $uids);
     }

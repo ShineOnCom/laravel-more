@@ -2,32 +2,33 @@
 
 namespace More\Laravel\Traits\Model\Core;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use More\Laravel\Util;
 
 /**
  * Trait SearchesMorphs
  *
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder whereModel(Model $model, string $related_field = null, $operator = '=')
- * @method static \Illuminate\Database\Eloquent\Builder whereNotModel(Model $model, string $related_field = null)
- * @method static \Illuminate\Database\Eloquent\Builder whereMorphedBy(Model|string $model, string $morph = null, $operator = '=')
- * @method static \Illuminate\Database\Eloquent\Builder whereNotMorphedBy(Model|string $model, string $morph = null)
- * @method static \Illuminate\Database\Eloquent\Builder whereMorph(Model $model, string $morph = null, $operator = '=')
- * @method static \Illuminate\Database\Eloquent\Builder whereNotMorph(Model $model, string $morph = null)
- * @method static \Illuminate\Database\Eloquent\Builder whereMorphNull(string $morph = null)
- * @method static \Illuminate\Database\Eloquent\Builder whereMorphNotNull(string $morph = null)
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
+ * @method static static|Builder whereModel($model, string $related_field = null, $operator = '=')
+ * @method static static|Builder whereNotModel($model, string $related_field = null)
+ * @method static static|Builder whereMorphedBy(Model|string $model, string $morph = null, $operator = '=')
+ * @method static static|Builder whereNotMorphedBy(Model|string $model, string $morph = null)
+ * @method static static|Builder whereMorph($model, string $morph = null, $operator = '=')
+ * @method static static|Builder whereNotMorph($model, string $morph = null)
+ * @method static static|Builder whereMorphNull(string $morph = null)
+ * @method static static|Builder whereMorphNotNull(string $morph = null)
  */
 trait MorphSupplement
 {
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param static|Builder $query
+     * @param Model $model
      * @param string|null $related_field
      * @param string $operator
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
-    public function scopeWhereModel($query, Model $model, $related_field = null, $operator = '=')
+    public function scopeWhereModel($query, $model, $related_field = null, $operator = '=')
     {
         if (empty($related_field)) {
             $related_field = Util::field($model);
@@ -37,22 +38,22 @@ trait MorphSupplement
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param static|Builder $query
+     * @param Model $model
      * @param string|null $related_field
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
-    public function scopeWhereNotModel($query, Model $model, $related_field = null)
+    public function scopeWhereNotModel($query, $model, $related_field = null)
     {
         return $query->whereModel($query, $model, $related_field, '!=');
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
+     * @param static|Builder $query
      * @param Model|string $model
      * @param string|null $morph
      * @param string $operator
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
     public function scopeWhereMorphedBy($query, $model, $morph = null, $operator = '=')
     {
@@ -65,10 +66,10 @@ trait MorphSupplement
 
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
+     * @param static|Builder $query
      * @param Model|string $model
      * @param string|null $morph
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
     public function scopeWhereNotMorphedBy($query, $model, $morph = null)
     {
@@ -76,13 +77,13 @@ trait MorphSupplement
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
+     * @param static|Builder $query
      * @param Model $model
      * @param string|null $morph
      * @param string $operator
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
-    public function scopeWhereMorph($query, Model $model, $morph = null, $operator = '=')
+    public function scopeWhereMorph($query, $model, $morph = null, $operator = '=')
     {
         if (empty($morph)) {
             $morph = Util::field($model);
@@ -96,20 +97,20 @@ trait MorphSupplement
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
+     * @param static|Builder $query
      * @param Model $model
      * @param string|null $morph
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
-    public function scopeWhereNotMorph($query, Model $model, $morph = null)
+    public function scopeWhereNotMorph($query, $model, $morph = null)
     {
         return $query->whereMorph($query, $model, $morph, '!=');
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
+     * @param static|Builder $query
      * @param null $morph
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
     public function scopeWhereMorphNull($query, $morph)
     {
@@ -118,9 +119,9 @@ trait MorphSupplement
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|MorphSupplement $query
+     * @param static|Builder $query
      * @param null $morph
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return static|Builder
      */
     public function scopeWhereMorphNotNull($query, $morph)
     {

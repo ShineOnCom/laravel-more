@@ -3,35 +3,37 @@
 namespace More\Laravel\Traits\Model;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Trait Publishes
  *
  * Don't forget to add `published_at` to your $casts or $dates property.
  *
- * @mixin \Eloquent
- * @method static forPublished() \Illuminate\Database\Eloquent\Builder
- * @method static forNotPublished() \Illuminate\Database\Eloquent\Builder
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
+ * @method static static|Builder forPublished()
+ * @method static static|Builder forNotPublished()\
  * @property \Carbon\Carbon published_at
  */
 trait Publishes
 {
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param static|Builder $query
+     * @return static|Builder
      */
     public function scopeForPublished($query)
     {
-        return $query->whereNotNull(sprintf('%s.published_at', $this->getTable()));
+        return $query->whereNotNull("{$this->getTable()}.published_at");
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param static|Builder $query
+     * @return static|Builder
      */
     public function scopeForNotPublished($query)
     {
-        return $query->whereNull(sprintf('%s.published_at', $this->getTable()));
+        return $query->whereNull("{$this->getTable()}.published_at");
     }
 
     /**
