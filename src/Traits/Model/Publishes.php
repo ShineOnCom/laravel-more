@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
  * @method static static|Builder forPublished()
- * @method static static|Builder forNotPublished()\
+ * @method static static|Builder forNotPublished()
  * @property \Carbon\Carbon published_at
  */
 trait Publishes
