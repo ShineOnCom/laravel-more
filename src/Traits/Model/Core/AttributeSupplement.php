@@ -8,7 +8,7 @@ use More\Laravel\Util;
 /**
  * Trait AttributeSupplement
  *
- * @mixin \Eloquent
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
  */
 trait AttributeSupplement
 {

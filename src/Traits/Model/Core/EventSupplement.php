@@ -2,10 +2,12 @@
 
 namespace More\Laravel\Traits\Model\Core;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Trait EventSupplement
  *
- * @mixin \Eloquent
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
  */
 trait EventSupplement
 {

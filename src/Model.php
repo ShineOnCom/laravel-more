@@ -12,8 +12,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 /**
  * Class Model
  *
- * Please discuss any changes to this Class with Dan before making them.
- * @mixin \Eloquent
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|BaseModel
  */
 abstract class Model extends BaseModel
 {

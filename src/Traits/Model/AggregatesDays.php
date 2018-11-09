@@ -4,6 +4,7 @@ namespace More\Laravel\Traits\Model;
 
 use DateTime;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,10 +12,10 @@ use Illuminate\Database\Eloquent\Model;
  *
  * Easily add stats to an entity for your Dashboard widgets.
  *
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder forDayCount(string $at = null)
- * @method static \Illuminate\Database\Eloquent\Builder forDaySum(string $field, string $at = null)
- * @method static \Illuminate\Database\Eloquent\Builder forDayRaw(string|array $expression, string $at = null)
+ * @mixin  \App\Model||\More\Laravel\Model|\Eloquent|Model
+ * @method static Builder forDayCount(string $at = null)
+ * @method static Builder forDaySum(string $field, string $at = null)
+ * @method static Builder forDayRaw(string|array $expression, string $at = null)
  */
 trait AggregatesDays
 {
@@ -32,7 +33,7 @@ trait AggregatesDays
     public static $_aggregates_days_timestamp = '%s.created_at';
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|AggregatesDays $query
+     * @param static|Builder $query
      * @param string|null $at
      * @return array
      */
@@ -81,7 +82,7 @@ trait AggregatesDays
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|AggregatesDays $query
+     * @param static|Builder $query
      * @param string $field
      * @param string|null $at
      * @return array
@@ -133,7 +134,7 @@ trait AggregatesDays
     /**
      * Provide an array of string, array of Expression or string or Expression
      *
-     * @param \Illuminate\Database\Eloquent\Builder|AggregatesDays
+     * @param static|Builder
      * @param array|string $select
      * @param string|null $at
      * @return array
@@ -214,6 +215,6 @@ trait AggregatesDays
     {
         $table = $this->getTable();
 
-        return vsprintf(static::$_aggregates_days_timestamp, [$table]);
+        return sprintf(static::$_aggregates_days_timestamp, $table);
     }
 }

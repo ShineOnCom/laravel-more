@@ -3,8 +3,10 @@
 namespace More\Laravel\Traits\Model;
 
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use More\Laravel\Util;
 
 /**
@@ -13,16 +15,17 @@ use More\Laravel\Util;
  * For any model / table that is related to the user table through an
  * intermediary model with a `user_id` column that "belongs to user"
  *
- * @mixin \Eloquent
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
  * @property User $user
  * @property int $user_id
- * @method static \Illuminate\Database\Eloquent\Builder forUser(User $user)
- * @method static \Illuminate\Database\Eloquent\Builder forUsers($users)
+ * @method static static|Builder forUser(User $user)
+ * @method static static|Builder forUsers($users)
  */
 trait BelongsToUserThrough
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param null $relation
+     * @return BelongsTo
      */
     public function user($relation = null)
     {
@@ -39,7 +42,7 @@ trait BelongsToUserThrough
      */
     public function isAccessibleBy(User $user)
     {
-        $class = $relation ?: static::BELONGS_TO_USER_THROUGH;
+        $class = static::BELONGS_TO_USER_THROUGH;
 
         $relation = Util::guessSingularRelation($class);
 
@@ -47,9 +50,9 @@ trait BelongsToUserThrough
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param User $user
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeForUser($query, User $user)
     {
@@ -65,15 +68,18 @@ trait BelongsToUserThrough
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Support\Collection|array
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @param Collection|array
+     * @return Builder
      */
     public function scopeForUsers($query, $users)
     {
         $class = static::BELONGS_TO_USER_THROUGH;
 
-        $table = (new $class)->getTable();
+        /** @var Model $instance */
+        $instance = new $class;
+
+        $table = $instance->getTable();
 
         $relation = Util::guessSingularRelation($class);
 
@@ -82,7 +88,7 @@ trait BelongsToUserThrough
 
         $uids = $users->pluck('id')->all();
 
-        $user_field = sprintf('%s.user_id', $this->getTable());
+        $user_field = "$table.user_id";
 
         return $query
             ->join($table, $table.'.'.$relation.'_id', '=', $this->getTable().'.id')

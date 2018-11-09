@@ -2,17 +2,20 @@
 
 namespace More\Laravel\Traits\Model\Core;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Trait GroupsOnce
  *
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder groupByExists(string $group_by)
- * @method static \Illuminate\Database\Eloquent\Builder groupByOnce(...$groups)
+ * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
+ * @method static static|Builder groupByExists(string $group_by)
+ * @method static static|Builder groupByOnce(...$groups)
  */
 trait GroupsOnce
 {
     /**
-     * @param \Illuminate\Database\Eloquent\Builder|GroupsOnce $query
+     * @param static|Builder $query
      * @param string $group_by
      * @return bool
      */
@@ -26,9 +29,9 @@ trait GroupsOnce
     /**
      * Add a "group by" clause to the query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder|GroupsOnce $query
+     * @param static|Builder $query
      * @param  array  ...$groups
-     * @return \Illuminate\Database\Eloquent\Builder $query
+     * @return static|Builder $query
      */
     public function scopeGroupByOnce($query, ...$groups)
     {
