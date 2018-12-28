@@ -1,5 +1,7 @@
 <?php
 
+namespace More\Laravel\Traits\Console;
+
 /**
  * Trait IdHelper
  *
