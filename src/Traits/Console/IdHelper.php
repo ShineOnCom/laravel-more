@@ -17,7 +17,7 @@ trait IdHelper
     {
         $option = ($this->option($arg));
 
-        if ($option == 'all' || $option == 'any') {
+        if (is_null($option) || $option == 'all' || $option == 'any') {
             return null;
         }
 
