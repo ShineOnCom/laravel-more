@@ -12,6 +12,16 @@ namespace More\Laravel\Traits\Model\User;
 trait AbbreviatesNames
 {
     /**
+     * @param string $name
+     */
+    public function setNameAttribute($name)
+    {
+        $name = explode(' ', $name);
+        $this->attributes['first_name'] = array_shift($name);
+        $this->attributes['last_name'] = implode(' ', $name);
+    }
+
+    /**
      * @return string
      */
     public function getFullNameAttribute()
