@@ -8,6 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Trait VerbosityHelper
  *
+ * For classes that extend \Illuminate\Console\Command
+ *
  * @mixin Command
  */
 trait VerbosityHelper
