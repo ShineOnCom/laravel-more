@@ -5,6 +5,8 @@ namespace More\Laravel\Traits\Console;
 /**
  * Trait IdHelper
  *
+ * For classes that extend \Illuminate\Console\Command
+ *
  * @mixin \Illuminate\Console\Command
  */
 trait IdHelper
