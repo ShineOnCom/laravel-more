@@ -13,8 +13,8 @@ use Illuminate\Support\Str;
  */
 trait CacheLock
 {
-    /** @var int $cache_lock_expires */
-    public static $cache_lock_expires = 60;
+    /** @var int $cache_lock_expires_in_secs */
+    public static $cache_lock_expires_in_secs = 60 * 60;
 
     /**
      * @param string $appends
@@ -30,8 +30,8 @@ trait CacheLock
      */
     public function lock(string $appends = '')
     {
-        $minutes = $this->getCacheLockMinutes($appends);
-        Cache::put($this->getCacheLockKey($appends), 1, $minutes);
+        $seconds = $this->getCacheLockSeconds($appends);
+        Cache::put($this->getCacheLockKey($appends), 1, $seconds);
     }
 
     /**
@@ -46,11 +46,11 @@ trait CacheLock
      * @param $appends
      * @return integer|null
      */
-    public function getCacheLockMinutes($appends)
+    public function getCacheLockSeconds($appends)
     {
         $base = Str::snake(class_basename($this));
 
-        return config("lock.$base.expires.$appends", static::$cache_lock_expires);
+        return config("lock.$base.expires.$appends", static::$cache_lock_expires_in_secs);
     }
 
     /**
