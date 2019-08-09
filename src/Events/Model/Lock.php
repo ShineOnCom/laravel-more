@@ -23,7 +23,7 @@ class Lock extends Unlock
     public function __construct($model, string $appends = '', int $minutes = null)
     {
         parent::__construct($model, $appends);
-        $this->minutes = $minutes ?: $model->getCacheLockMinutes($appends);
+        $this->minutes = $minutes ?: $model->getCacheLockSeconds($appends);
     }
 
     /**
