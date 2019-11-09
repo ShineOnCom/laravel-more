@@ -98,7 +98,7 @@ trait MorphSupplement
             $collection = collect($model_or_collection);
         // Make model a collection
         } elseif ($model_or_collection instanceof Model) {
-            $collection = collect($model_or_collection);
+            $collection = collect([$model_or_collection]);
         }
 
         // No models means no results
