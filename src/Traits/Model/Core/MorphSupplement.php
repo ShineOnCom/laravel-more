@@ -90,10 +90,11 @@ trait MorphSupplement
     public function scopeWhereMorph($query, $model_or_collection, $morph = null, $operator = '=')
     {
         if (empty($morph)) {
-            $morph = Util::field($model);
+            $morph = Util::field($model_or_collection);
         }
 
         // Make array a collection
+        /** @var BaseCollection $collection */
         if (is_array($model_or_collection)) {
             $collection = collect($model_or_collection);
         // Make model a collection
@@ -103,7 +104,7 @@ trait MorphSupplement
 
         // No models means no results
         if ($collection->isEmpty()) {
-            return $q->whereRaw('1=0');
+            return $query->whereRaw('1=0');
         }
 
         $class = get_class($collection->first());
@@ -123,7 +124,7 @@ trait MorphSupplement
     public function scopeWhereMorphIds($query, $class, $ids, $morph = null, $operator = '=')
     {
         if (empty($morph)) {
-            $morph = Util::field($model);
+            $morph = Util::field($class);
         }
 
         // Make array a collection
@@ -133,7 +134,7 @@ trait MorphSupplement
 
         // No models means no results
         if (empty($ids)) {
-            return $q->whereRaw('1=0');
+            return $query->whereRaw('1=0');
         }
 
         $class = Util::rawClass($class);
