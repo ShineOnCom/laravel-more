@@ -110,7 +110,7 @@ trait MorphSupplement
         $class = get_class($collection->first());
         $keys = $collection->map(function($m) { return $m->getKey(); });
 
-        return $this->whereMorphIds($class, $keys, $morph, $operator);
+        return $query->whereMorphIds($class, $keys, $morph, $operator);
     }
     
     /**
