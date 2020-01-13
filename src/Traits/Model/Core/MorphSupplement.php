@@ -3,7 +3,10 @@
 namespace More\Laravel\Traits\Model\Core;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection as BaseCollection;
 use More\Laravel\Util;
 
 /**
@@ -14,7 +17,8 @@ use More\Laravel\Util;
  * @method static static|Builder whereNotModel($model, string $related_field = null)
  * @method static static|Builder whereMorphedBy(Model|string $model, string $morph = null, $operator = '=')
  * @method static static|Builder whereNotMorphedBy(Model|string $model, string $morph = null)
- * @method static static|Builder whereMorph($model, string $morph = null, $operator = '=')
+ * @method static static|Builder whereMorph(Model|BaseCollection|array $model_or_collection, string $morph = null, $operator = '=')
+ * @method static static|Builder whereMorphIds($model, $ids, string $morph = null, $operator = '=')
  * @method static static|Builder whereNotMorph($model, string $morph = null)
  * @method static static|Builder whereMorphNull(string $morph = null)
  * @method static static|Builder whereMorphNotNull(string $morph = null)
@@ -78,22 +82,81 @@ trait MorphSupplement
 
     /**
      * @param static|Builder $query
-     * @param Model $model
+     * @param Model|Collection|array $model_or_collection
      * @param string|null $morph
      * @param string $operator
      * @return static|Builder
      */
-    public function scopeWhereMorph($query, $model, $morph = null, $operator = '=')
+    public function scopeWhereMorph($query, $model_or_collection, $morph = null, $operator = '=')
     {
         if (empty($morph)) {
-            $morph = Util::field($model);
+            $morph = Util::field($model_or_collection);
         }
 
+        // Make array a collection
+        /** @var BaseCollection $collection */
+        if (is_array($model_or_collection)) {
+            $collection = collect($model_or_collection);
+        // Make model a collection
+        } elseif ($model_or_collection instanceof Model) {
+            $collection = collect([$model_or_collection]);
+        }
+
+        // No models means no results
+        if ($collection->isEmpty()) {
+            return $query->whereRaw('1=0');
+        }
+
+        $class = get_class($collection->first());
+        $keys = $collection->map(function($m) { return $m->getKey(); });
+
+        return $query->whereMorphIds($class, $keys, $morph, $operator);
+    }
+    
+    /**
+     * @param static|Builder $query
+     * @param Model|string $class
+     * @param BaseCollection|array
+     * @param string|null $morph
+     * @param string $operator
+     * @return static|Builder
+     */
+    public function scopeWhereMorphIds($query, $class, $ids, $morph = null, $operator = '=')
+    {
+        if (empty($morph)) {
+            $morph = Util::field($class);
+        }
+
+        // Make array a collection
+        if ($ids instanceof BaseCollection) {
+            $ids = $ids->all();
+        }
+
+        // No models means no results
+        if (empty($ids)) {
+            return $query->whereRaw('1=0');
+        }
+
+        $class = Util::rawClass($class);
+
         return $query
-            ->where(function($q) use ($model, $morph, $operator) {
-                $q->where("{$morph}_type", $operator, Util::rawClass($model))
-                    ->where("{$morph}_id", $operator, $model->getKey());
-            });
+            ->when($operator == '=',
+                function(Builder $q) use ($morph, $class, $ids) {
+                    $q->where(function(Builder $together) use ($morph, $class, $ids) {
+                        $together->where("{$morph}_type", '=', $class)
+                            ->whereIn("{$morph}_id", $ids);
+                    });
+                },
+                // Where not morph class or morph class not in ids
+                function(Builder $q) use ($morph, $class, $ids) {
+                    $q->where("{$morph}_type", '!=', $class)
+                        ->orWhere(function(Builder $or) use ($morph, $class, $ids) {
+                            $or->where(function(Builder $together) use ($morph, $class, $ids) {
+                                $together->where("{$morph}_type", '=', $class)
+                                    ->whereNotIn("{$morph}_id", $ids);
+                            });
+                        });
+                });
     }
 
     /**
