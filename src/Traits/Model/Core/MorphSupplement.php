@@ -93,13 +93,19 @@ trait MorphSupplement
             $morph = Util::field($model_or_collection);
         }
 
-        // Make array a collection
+        // Make a collection with various inputs
         /** @var BaseCollection $collection */
-        if (is_array($model_or_collection)) {
+        if (is_object($model_or_collection)) {
+            if ($model_or_collection instanceof BaseCollection) {
+                $collection = $model_or_collection;
+            } elseif ($model_or_collection instanceof Model) {
+                $collection = collect([$model_or_collection]);
+            }
+        } elseif (is_array($model_or_collection)) {
             $collection = collect($model_or_collection);
-        // Make model a collection
-        } elseif ($model_or_collection instanceof Model) {
-            $collection = collect([$model_or_collection]);
+        } else {
+            // Crosses fingers
+            $collection = $model_or_collection;
         }
 
         // No models means no results
