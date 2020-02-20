@@ -16,8 +16,8 @@ use Illuminate\Support\Collection as BaseCollection;
  * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
  * @property User $user
  * @property int $user_id
- * @method static Builder forUser(User $user)
- * @method static Builder forUsers($users)
+ * @method static static|Builder forUser(User $user)
+ * @method static static|Builder forUsers($users)
  */
 trait BelongsToUser
 {

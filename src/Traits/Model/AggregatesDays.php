@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * Easily add stats to an entity for your Dashboard widgets.
  *
  * @mixin  \App\Model||\More\Laravel\Model|\Eloquent|Model
- * @method static Builder forDayCount(string $at = null)
- * @method static Builder forDaySum(string $field, string $at = null)
- * @method static Builder forDayRaw(string|array $expression, string $at = null)
+ * @method static static|Builder forDayCount(string $at = null)
+ * @method static static|Builder forDaySum(string $field, string $at = null)
+ * @method static static|Builder forDayRaw(string|array $expression, string $at = null)
  */
 trait AggregatesDays
 {
