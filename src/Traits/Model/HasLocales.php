@@ -3,11 +3,12 @@
 namespace More\Laravel\Traits;
 
 use Cache;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Trait HasLocales
  *
- * @method static forLocales(array|string $locales) \Illuminate\Database\Eloquent\Builder
+ * @method static static|Builder forLocales(array|string $locales) \Illuminate\Database\Eloquent\Builder
  * @property string $primary_locale
  */
 trait HasLocales

@@ -26,7 +26,7 @@ trait BelongsToParent
     public function parent()
     {
         /** @var Model $this */
-        return $this->belongsTo(get_class($this), 'parent_id', 'id');
+        return $this->belongsTo(get_class($this), $this->parent_id ? 'parent_id' : 'id', 'id');
     }
 
     /**
