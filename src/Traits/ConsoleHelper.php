@@ -1,6 +1,6 @@
 <?php
 
-namespace More\Laravel\Traits\Console;
+namespace More\Laravel\Traits;
 
 use Carbon\Carbon;
 use Exception;
@@ -11,7 +11,7 @@ use Illuminate\Console\Command;
  *
  * @mixin Command
  */
-trait CommandHelper
+trait ConsoleHelper
 {
     /**
      * @param $arg
