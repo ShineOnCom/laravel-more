@@ -47,7 +47,7 @@ trait AttributeSupplement
     /**
      * Add mutated attributes to a model before sending it back in a response.
      *
-     * @param array ...$args
+     * @param array $args,...
      * @return Model
      */
     public function withAttributes(...$args)
