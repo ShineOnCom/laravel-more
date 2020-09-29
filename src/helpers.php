@@ -28,7 +28,8 @@ if (! function_exists('dq')) {
     function dq(...$args)
     {
         $query = array_shift($args);
-        dd($query->toSql(), $query->getQuery()->getBindings(), ...$args);
+
+        dd($query->toSql(), $query->getQuery()->getBindings(), sql($query), ...$args);
     }
 }
 
