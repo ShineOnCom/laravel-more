@@ -1,6 +1,6 @@
 <?php
 
-namespace More\Laravel\Traits;
+namespace More\Laravel\Traits\Model;
 
 use Cache;
 use Illuminate\Database\Eloquent\Builder;
