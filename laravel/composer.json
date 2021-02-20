@@ -2,7 +2,9 @@
     "name": "dan/laravel-more",
     "description": "More for your Laravel projects.",
     "license": "MIT",
-    "keywords": ["laravel"],
+    "keywords": [
+        ""
+    ],
     "type": "project",
     "authors": [
         {
@@ -15,7 +17,7 @@
             "More\\Laravel\\": "src/"
         },
         "files": [
-            "laravel/src/helpers.php"
+            "src/helpers.php"
         ]
     },
     "require": {
