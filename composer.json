@@ -12,10 +12,10 @@
     ],
     "autoload" : {
         "psr-4": {
-            "More\\": "src/"
+            "More\\Laravel\\": "src/"
         },
         "files": [
-            "src/helpers.php"
+            "laravel/src/helpers.php"
         ]
     },
     "require": {
