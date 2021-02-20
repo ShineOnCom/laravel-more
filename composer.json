@@ -12,7 +12,7 @@
     ],
     "autoload" : {
         "psr-4": {
-            "More\\Laravel\\": "src/"
+            "More\\": "src/"
         },
         "files": [
             "src/helpers.php"
