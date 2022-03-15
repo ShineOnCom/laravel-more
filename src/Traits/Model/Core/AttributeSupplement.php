@@ -16,7 +16,7 @@ trait AttributeSupplement
      * @param string|null $as
      * @return array
      */
-    public function compact($as = null)
+    public function compact(string $as = null): array
     {
         if (is_null($as)) {
             $as = Util::field($this);
