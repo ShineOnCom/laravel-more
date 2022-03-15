@@ -13,10 +13,10 @@ use More\Laravel\Util;
 trait AttributeSupplement
 {
     /**
-     * @param null $as
+     * @param string|null $as
      * @return array
      */
-    public function compact($as = null)
+    public function compact(string $as = null): array
     {
         if (is_null($as)) {
             $as = Util::field($this);
@@ -47,7 +47,7 @@ trait AttributeSupplement
     /**
      * Add mutated attributes to a model before sending it back in a response.
      *
-     * @param array ...$args
+     * @param array $args,...
      * @return Model
      */
     public function withAttributes(...$args)

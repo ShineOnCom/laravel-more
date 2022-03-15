@@ -199,10 +199,10 @@ trait MorphSupplement
     }
 
     /**
-     * @param null $morph
+     * @param string|null $morph
      * @return array
      */
-    public function unmorph($morph = null)
+    public function unmorph(string $morph = null): array
     {
         if (is_null($morph)) {
             $morph = Util::field($this);

@@ -21,18 +21,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 trait BelongsToParent
 {
     /**
-     * @return BelongsTo
+     * @return BelongsTo|static|null
      */
     public function parent()
     {
         /** @var Model $this */
-        return $this->belongsTo(get_class($this), $this->parent_id ? 'parent_id' : 'id', 'id');
+        return $this->belongsTo(get_class($this), 'parent_id', 'id');
     }
 
     /**
      * Direct children, does not include grandchildren
      *
-     * @return HasMany|static
+     * @return HasMany|static|null
      */
     public function children()
     {
@@ -42,7 +42,7 @@ trait BelongsToParent
 
     /**
      * @param bool $include_self
-     * @return HasMany|Builder
+     * @return HasMany|static|null
      */
     public function siblings($include_self = false)
     {

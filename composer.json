@@ -2,7 +2,9 @@
     "name": "dan/laravel-more",
     "description": "More for your Laravel projects.",
     "license": "MIT",
-    "keywords": ["laravel"],
+    "keywords": [
+        "Laravel"
+    ],
     "type": "project",
     "authors": [
         {
@@ -20,7 +22,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "illuminate/support": "5.8.*|6.*|7.*",
-        "illuminate/database": "5.8.*|6.*|7.*"
+        "illuminate/support": "^5.5|^6.0|^7.0|^8.0",
+        "illuminate/database": "^5.5|^6.0|^7.0|^8.0"
     }
 }

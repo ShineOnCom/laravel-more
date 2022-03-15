@@ -1,5 +1,24 @@
 <?php
 
+if (! function_exists('sql')) {
+    function sql($query)
+    {
+        $bindings = array_map(static function ($value) {
+            return is_string($value) ? "'".str_replace('\\', '\\\\', $value)."'" : $value;
+        }, $query->getBindings());
+
+        $segments = explode('?', $query->toSql());
+
+        $result = array_shift($segments);
+
+        foreach ($segments as $segment) {
+            $result .= (array_shift($bindings) ?? '?').$segment;
+        }
+
+        return $result;
+    }
+}
+
 if (! function_exists('dq')) {
     /**
      * First arg should be a Builder instance or Model.
@@ -9,7 +28,8 @@ if (! function_exists('dq')) {
     function dq(...$args)
     {
         $query = array_shift($args);
-        dd($query->toSql(), $query->getQuery()->getBindings(), ...$args);
+
+        dd($query->toSql(), $query->getQuery()->getBindings(), sql($query), ...$args);
     }
 }
 
