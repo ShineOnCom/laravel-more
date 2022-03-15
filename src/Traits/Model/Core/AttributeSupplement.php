@@ -13,7 +13,7 @@ use More\Laravel\Util;
 trait AttributeSupplement
 {
     /**
-     * @param null $as
+     * @param string|null $as
      * @return array
      */
     public function compact($as = null)
