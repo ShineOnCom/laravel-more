@@ -2,20 +2,21 @@
 
 namespace More\Laravel\Traits\Model;
 
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Trait BelongsToParent
  *
- * @mixin  \App\Model||\More\Laravel\Model|\Eloquent|Model
+ * @mixin  Model|\More\Laravel\Model|EloquentModel
  * @method static static|Builder forParents()
  * @method static static|Builder forChildren()
  * @property Collection $children
- * @property  \App\Model||\More\Laravel\Model|\Eloquent|Model|static $parent
+ * @property Model|\More\Laravel\Model|EloquentModel|static $parent
  * @property Collection $siblings
  */
 trait BelongsToParent

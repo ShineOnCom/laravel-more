@@ -2,9 +2,10 @@
 
 namespace More\Laravel\Traits\Model;
 
-use App\User;
+use App\Models\User;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection as BaseCollection;
 
@@ -13,7 +14,7 @@ use Illuminate\Support\Collection as BaseCollection;
  *
  * For any model / table with a `user_id` column that "belongs to user"
  *
- * @mixin  \App\Model|\More\Laravel\Model|\Eloquent|Model
+ * @mixin  Model|\More\Laravel\Model|EloquentModel
  * @property User $user
  * @property int $user_id
  * @method static static|Builder forUser(User $user)
