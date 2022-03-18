@@ -2,7 +2,7 @@
 
 namespace More\Laravel\Traits\Model;
 
-use App\User;
+use App\Models\User;
 use App\Models\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
